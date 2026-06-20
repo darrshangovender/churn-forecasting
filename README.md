@@ -1,4 +1,17 @@
-# Churn & Revenue Forecasting Pipeline
+<div align="center">
+
+# Churn & MRR Forecasting Pipeline
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.11+-3776AB?logo=python&logoColor=white)](https://python.org)
+[![XGBoost](https://img.shields.io/badge/XGBoost-2.0+-006400)](https://xgboost.readthedocs.io)
+[![Prophet](https://img.shields.io/badge/Prophet-1.1+-3776AB)](https://facebook.github.io/prophet/)
+[![Status](https://img.shields.io/badge/Status-Production-success)](#)
+[![ROC-AUC](https://img.shields.io/badge/ROC--AUC-0.87-059669)](#model-performance-on-holdout-set)
+
+</div>
+
+---
 
 > End-to-end ML pipeline for a SaaS client. Pandas feature engineering from raw transactional data, gradient-boosted churn classifier, time-series MRR forecaster, served via FastAPI behind a Next.js dashboard. Surfaces at-risk accounts weekly to the customer success team.
 
