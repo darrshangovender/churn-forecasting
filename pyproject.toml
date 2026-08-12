@@ -1,0 +1,40 @@
+[project]
+name = "churn-forecasting"
+version = "0.1.0"
+description = "Reference implementation of churn classification + MRR forecasting (public dataset version of an Agulhas Code client engagement)."
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+    { name = "Darrshan Govender", email = "darrshan@agulhascode.co.za" },
+]
+license = { text = "MIT" }
+dependencies = [
+    "pandas>=2.2",
+    "numpy>=1.26",
+    "scikit-learn>=1.4",
+    "xgboost>=2.0",
+    "statsmodels>=0.14",
+    "matplotlib>=3.8",
+    "jupyter>=1.0",
+    "nbformat>=5.9",
+    "requests>=2.31",
+]
+
+[project.optional-dependencies]
+prophet = ["prophet>=1.1"]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=4.1",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["churn", "mrr_forecast"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-ra --strict-markers"
