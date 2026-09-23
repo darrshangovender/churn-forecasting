@@ -43,7 +43,7 @@ class XGBChurnClassifier:
         self.calibrate = calibrate
         self.model: XGBClassifier | CalibratedClassifierCV = self.base
 
-    def fit(self, X: pd.DataFrame, y: np.ndarray) -> "XGBChurnClassifier":
+    def fit(self, X: pd.DataFrame, y: np.ndarray) -> XGBChurnClassifier:
         if self.calibrate:
             # 3-fold internal calibration; isotonic better than sigmoid for tree models
             self.model = CalibratedClassifierCV(self.base, method="isotonic", cv=3)
