@@ -15,13 +15,13 @@ Run:
 
 from __future__ import annotations
 
-import json
 import sys
 from dataclasses import dataclass
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from scipy.stats import norm
 from statsmodels.tsa.holtwinters import ExponentialSmoothing
 
 from mrr_forecast.generator import generate_mrr_series
@@ -57,7 +57,7 @@ class MRRForecaster:
         self.model = None
         self.fitted_ = None
 
-    def fit(self, series: pd.Series) -> "MRRForecaster":
+    def fit(self, series: pd.Series) -> MRRForecaster:
         # Holt-Winters needs at least 2*seasonal_periods observations
         if len(series) < 2 * self.seasonal_periods:
             # Fall back to no seasonality on short series
@@ -80,11 +80,19 @@ class MRRForecaster:
         """Forecast next ``h`` months with approximate ``(1-alpha)`` prediction intervals."""
         if self.fitted_ is None:
             raise RuntimeError("Must call fit() before forecast()")
+        if not 0.0 < alpha < 1.0:
+            raise ValueError(f"alpha must be in (0, 1), got {alpha}")
         pred = self.fitted_.forecast(h)
         # Approximate intervals from residual std
         resid = self.fitted_.resid
         std = float(np.nanstd(resid))
-        z = 1.28 if alpha == 0.2 else 1.96
+        # Two-sided critical value for the requested confidence level. This was
+        # `1.28 if alpha == 0.2 else 1.96`: an exact float comparison against a
+        # continuous parameter, so every level other than 0.2 and 0.05 silently
+        # got a 95% band — alpha=0.5 came back ~2.9x too wide — and even
+        # alpha=0.2 reached by arithmetic (1 - 0.8 == 0.19999999999999996) missed
+        # the branch and widened to 95%.
+        z = float(norm.ppf(1.0 - alpha / 2.0))
         lower = pred - z * std
         upper = pred + z * std
         return Forecast(
@@ -106,7 +114,7 @@ def main() -> int:
     out_dir.mkdir(exist_ok=True)
     fc_df = pd.DataFrame({"mrr": fc.forecast, "lower": fc.lower, "upper": fc.upper})
     fc_df.to_csv(out_dir / "mrr_forecast.csv")
-    print(f"\nForecast (next 12 months):")
+    print("\nForecast (next 12 months):")
     print(fc_df.round(0).to_string())
     print(f"\nSaved to {out_dir}/mrr_forecast.csv")
     return 0
