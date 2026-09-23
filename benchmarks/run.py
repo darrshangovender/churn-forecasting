@@ -12,9 +12,6 @@ import json
 import sys
 from pathlib import Path
 
-import numpy as np
-import pandas as pd
-
 from churn.data.loader import load_telco, split_telco
 from churn.evaluation import evaluate
 from churn.features import FeatureBuilder
