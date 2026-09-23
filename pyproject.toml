@@ -4,10 +4,9 @@ version = "0.1.0"
 description = "Reference implementation of churn classification + MRR forecasting (public dataset version of an Agulhas Code client engagement)."
 readme = "README.md"
 requires-python = ">=3.11"
-authors = [
-    { name = "Darrshan Govender", email = "darrshan@agulhascode.co.za" },
-]
 license = { text = "MIT" }
+authors = [{ name = "Darrshan Govender", email = "darrshangovender@gmail.com" }]
+keywords = ["machine-learning", "churn", "forecasting", "xgboost", "mrr", "saas"]
 dependencies = [
     "pandas>=2.2",
     "numpy>=1.26",
@@ -15,17 +14,23 @@ dependencies = [
     "xgboost>=2.0",
     "statsmodels>=0.14",
     "matplotlib>=3.8",
-    "jupyter>=1.0",
-    "nbformat>=5.9",
     "requests>=2.31",
 ]
 
 [project.optional-dependencies]
 prophet = ["prophet>=1.1"]
+# Jupyter is only needed to execute the notebooks/ directory, so it lives here
+# rather than in the runtime dependency set.
+notebooks = ["jupyter>=1.0", "nbformat>=5.9"]
 dev = [
     "pytest>=8.0",
     "pytest-cov>=4.1",
+    "ruff>=0.6",
 ]
+
+[project.urls]
+Homepage = "https://github.com/darrshangovender/churn-forecasting"
+Issues = "https://github.com/darrshangovender/churn-forecasting/issues"
 
 [build-system]
 requires = ["hatchling"]
@@ -37,4 +42,9 @@ packages = ["churn", "mrr_forecast"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
-addopts = "-ra --strict-markers"
+addopts = "-ra -q"
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
