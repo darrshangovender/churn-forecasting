@@ -6,7 +6,7 @@ These verify shape correctness and the services_count derivation on hand-crafted
 import pandas as pd
 import pytest
 
-from churn.features import FeatureBuilder, _SERVICES
+from churn.features import FeatureBuilder
 
 
 @pytest.fixture
