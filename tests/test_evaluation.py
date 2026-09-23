@@ -1,7 +1,6 @@
 """Tests for evaluation metrics — most importantly top_decile_precision."""
 
 import numpy as np
-import pytest
 
 from churn.evaluation import evaluate, top_decile_precision, top_quintile_precision
 
