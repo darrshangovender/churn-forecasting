@@ -40,7 +40,7 @@ def top_quintile_precision(y_true: np.ndarray, y_score: np.ndarray) -> float:
 
 def _top_k_precision(y_true: np.ndarray, y_score: np.ndarray, k_frac: float) -> float:
     n = len(y_true)
-    k = max(1, int(round(n * k_frac)))
+    k = max(1, round(n * k_frac))
     idx = np.argsort(y_score)[::-1][:k]  # top-k indices
     if k == 0:
         return 0.0
