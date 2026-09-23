@@ -12,10 +12,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
-
 
 _CATEGORICAL = [
     "gender",
@@ -61,7 +59,7 @@ class FeatureBuilder:
     scaler: StandardScaler | None = None
     feature_names: list[str] | None = None
 
-    def fit(self, df: pd.DataFrame) -> "FeatureBuilder":
+    def fit(self, df: pd.DataFrame) -> FeatureBuilder:
         X = self._raw_features(df)
         self.feature_names = list(X.columns)
         self.scaler = StandardScaler()
