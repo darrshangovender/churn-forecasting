@@ -18,7 +18,7 @@ class LRBaseline:
             random_state=random_state,
         )
 
-    def fit(self, X: pd.DataFrame, y: np.ndarray) -> "LRBaseline":
+    def fit(self, X: pd.DataFrame, y: np.ndarray) -> LRBaseline:
         self.model.fit(X, y)
         return self
 
